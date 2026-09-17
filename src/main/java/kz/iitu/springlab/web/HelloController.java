@@ -23,7 +23,7 @@ public class HelloController {
                 System.getProperty("java.version"),
                 Runtime.getRuntime().availableProcessors());
     }
-
+    // Individual assignment (variant 5): Fahrenheit -> Celsius and Kelvin conversion
     @GetMapping("/temperature")
     public TemperatureResult temperature(@RequestParam(required = false) Double f) {
         if (f == null) {
