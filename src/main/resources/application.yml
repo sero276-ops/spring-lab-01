@@ -7,7 +7,7 @@ server:
   port: 8080
 
 app:
-  owner: Амирова Анеля
+  owner: Amirova Anelya
   group: IT1-2410IS
   date-pattern: yyyy-MM-dd HH:mm:ss
   mail:
