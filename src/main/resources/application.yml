@@ -1,0 +1,38 @@
+# src/main/resources/application.yml — shared settings (read in every profile)
+spring:
+  application:
+    name: spring-lab-01
+
+server:
+  port: 8080
+
+app:
+  owner: Амирова Анеля
+  group: IT1-2410IS
+  date-pattern: yyyy-MM-dd HH:mm:ss
+  mail:
+    from: no-reply@iitu.kz
+    retry-count: 3
+    timeout: 5s
+    enabled: true
+  # Individual assignment, variant 2
+  pagination:
+    default-size: 20
+    max-size: 200
+
+logging:
+  level:
+    web: INFO
+    kz.iitu: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,env,configprops,conditions
+  endpoint:
+    # values are masked as ****** by default; show them for the lab
+    env:
+      show-values: always
+    configprops:
+      show-values: always
