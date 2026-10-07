@@ -41,4 +41,10 @@ public class CatalogController {
                 "isAopProxy", String.valueOf(AopUtils.isAopProxy(catalogService)),
                 "isCglib", String.valueOf(AopUtils.isCglibProxy(catalogService)));
     }
+
+    // Задание 4.4: эксперимент с self-invocation
+    @GetMapping("/remove-twice/{id}")
+    public String removeTwice(@PathVariable long id) {
+        return catalogService.removeTwice(id);
+    }
 }

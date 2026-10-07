@@ -30,6 +30,13 @@ public class CatalogService {
         return "Removed item no. " + id;
     }
 
+    // Self-invocation: remove() вызывается через this — мимо прокси
+    public String removeTwice(long id) {
+        String first = remove(id);       // это this.remove(id)
+        String second = remove(id + 1);  // и это тоже
+        return first + "; " + second;
+    }
+
     private void sleep(long ms) {
         try { Thread.sleep(ms); }
         catch (InterruptedException e) { Thread.currentThread().interrupt(); }
