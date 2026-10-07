@@ -1,9 +1,11 @@
 package kz.iitu.springlab.web;
 
 import kz.iitu.springlab.service.CatalogService;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/lab4")
@@ -28,5 +30,15 @@ public class CatalogController {
     @DeleteMapping("/item/{id}")
     public String remove(@PathVariable long id) {
         return catalogService.remove(id);
+    }
+
+    // Задание 4.1: какой объект на самом деле внедрён в контроллер
+    @GetMapping("/proxy")
+    public Map<String, String> proxyInfo() {
+        return Map.of(
+                "className", catalogService.getClass().getName(),
+                "superClass", catalogService.getClass().getSuperclass().getSimpleName(),
+                "isAopProxy", String.valueOf(AopUtils.isAopProxy(catalogService)),
+                "isCglib", String.valueOf(AopUtils.isCglibProxy(catalogService)));
     }
 }
