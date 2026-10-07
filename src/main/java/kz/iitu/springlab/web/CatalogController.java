@@ -1,5 +1,6 @@
 package kz.iitu.springlab.web;
 
+import kz.iitu.springlab.aspect.CallCounterAspect;
 import kz.iitu.springlab.service.CatalogService;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.Map;
 public class CatalogController {
 
     private final CatalogService catalogService;
+    private final CallCounterAspect callCounter;
 
-    public CatalogController(CatalogService catalogService) {
+    public CatalogController(CatalogService catalogService, CallCounterAspect callCounter) {
         this.catalogService = catalogService;
+        this.callCounter = callCounter;
     }
 
     @GetMapping("/item/{id}")
@@ -52,5 +55,11 @@ public class CatalogController {
     @GetMapping("/remove-twice-fixed/{id}")
     public String removeTwiceFixed(@PathVariable long id) {
         return catalogService.removeTwiceFixed(id);
+    }
+
+    // Индивидуальный вариант 1: статистика вызовов
+    @GetMapping("/stats")
+    public Map<String, Long> stats() {
+        return callCounter.getStatistics();
     }
 }
