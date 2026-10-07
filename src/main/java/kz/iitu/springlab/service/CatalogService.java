@@ -1,6 +1,8 @@
 package kz.iitu.springlab.service;
 
 import kz.iitu.springlab.audit.Audited;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,6 +10,12 @@ import java.util.stream.IntStream;
 
 @Service
 public class CatalogService {
+
+    // Ссылка на САМ ПРОКСИ этого бина (исправление self-invocation).
+    // @Lazy нужен, чтобы не было ошибки циклической зависимости при старте.
+    @Autowired
+    @Lazy
+    private CatalogService self;
 
     public String findById(long id) {
         sleep(50); // имитация обращения к БД
@@ -30,10 +38,17 @@ public class CatalogService {
         return "Removed item no. " + id;
     }
 
-    // Self-invocation: remove() вызывается через this — мимо прокси
+    // ДО исправления: вызов через this — мимо прокси, аспекты на remove() не срабатывают
     public String removeTwice(long id) {
         String first = remove(id);       // это this.remove(id)
         String second = remove(id + 1);  // и это тоже
+        return first + "; " + second;
+    }
+
+    // ПОСЛЕ исправления: вызов через self — через прокси, аспекты срабатывают
+    public String removeTwiceFixed(long id) {
+        String first = self.remove(id);
+        String second = self.remove(id + 1);
         return first + "; " + second;
     }
 
