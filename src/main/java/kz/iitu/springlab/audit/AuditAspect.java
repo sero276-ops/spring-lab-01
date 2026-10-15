@@ -18,7 +18,6 @@ public class AuditAspect {
 
     private static final Logger log = LoggerFactory.getLogger(AuditAspect.class);
 
-    // срабатывает на методах с @Audited; сама аннотация приходит в параметр audited
     @Around("@annotation(audited)")
     public Object audit(ProceedingJoinPoint pjp, Audited audited) throws Throwable {
         String action = audited.action();
@@ -34,7 +33,7 @@ public class AuditAspect {
             return result;
         } catch (Throwable ex) {
             log.warn("[AUDIT] {} failure at {}: {}", action, LocalDateTime.now(), ex.getMessage());
-            throw ex; // исключение НЕ подавляем
+            throw ex;
         }
     }
 }

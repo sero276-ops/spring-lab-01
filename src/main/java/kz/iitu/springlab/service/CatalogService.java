@@ -11,20 +11,18 @@ import java.util.stream.IntStream;
 @Service
 public class CatalogService {
 
-    // Ссылка на САМ ПРОКСИ этого бина (исправление self-invocation).
-    // @Lazy нужен, чтобы не было ошибки циклической зависимости при старте.
     @Autowired
     @Lazy
     private CatalogService self;
 
     public String findById(long id) {
-        sleep(50); // имитация обращения к БД
+        sleep(50);
         return "Item no. " + id;
     }
 
     @Audited(action = "CATALOG_LIST", logArguments = true)
     public List<String> findAll(int limit) {
-        sleep(300); // намеренно «медленный» метод
+        sleep(300);
         return IntStream.rangeClosed(1, limit)
                 .mapToObj(i -> "Item no. " + i)
                 .toList();

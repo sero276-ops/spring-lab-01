@@ -19,7 +19,6 @@ public class LoggingAspect {
 
     private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 
-    // ДО вызова: имя метода + аргументы
     @Before("kz.iitu.springlab.aspect.Pointcuts.serviceOperation()")
     public void before(JoinPoint jp) {
         log.info("[LOG] -> {} args={}",
@@ -27,7 +26,6 @@ public class LoggingAspect {
                 Arrays.toString(jp.getArgs()));
     }
 
-    // ПОСЛЕ успешного возврата: имя + результат
     @AfterReturning(pointcut = "kz.iitu.springlab.aspect.Pointcuts.serviceOperation()",
             returning = "result")
     public void afterReturning(JoinPoint jp, Object result) {
@@ -35,7 +33,6 @@ public class LoggingAspect {
                 jp.getSignature().toShortString(), result);
     }
 
-    // ПОСЛЕ исключения: имя + тип и текст ошибки
     @AfterThrowing(pointcut = "kz.iitu.springlab.aspect.Pointcuts.serviceOperation()",
             throwing = "ex")
     public void afterThrowing(JoinPoint jp, Exception ex) {
